@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "DisjointSets.hpp"
+#include "disjoint_sets.hpp"
 
 int main()
 {

@@ -2,8 +2,9 @@
 #define DISJOINT_SETS_HPP
 
 #include <unordered_map>
-#include <vector>
+#include <unordered_set>
 #include <utility>
+#include <vector>
 
 /**
  * A data structure that implements the Disjoint Sets
@@ -16,11 +17,11 @@
  *  you add to it.
  */
 template <typename T>
-class DisjointSets
+class disjoint_sets
 {
 public:
-  DisjointSets() {}
-  ~DisjointSets() {}
+  disjoint_sets() {}
+  ~disjoint_sets() {}
 
   /**
    * @return true if the element was added, false if it was already present.
@@ -40,6 +41,11 @@ public:
    *  @return Representative of the merged subset.
    */
   const T *merge(const T&, const T&);
+
+  /**
+   * @return The set of contained disjoint sets.
+   */
+  std::unordered_set<std::unordered_set<const T*>> get_all_subsets() const;
 
 private:
   struct DisjointSetEntry
@@ -81,14 +87,14 @@ private:
 };
 
 template <typename T>
-const T *DisjointSets<T>::find(const T& elem)
+const T *disjoint_sets<T>::find(const T& elem)
 {
   auto entry = find_entry(elem);
   return (entry.first) ? entry.first->element : nullptr;
 }
 
 template <typename T>
-bool DisjointSets<T>::add(const T& elem)
+bool disjoint_sets<T>::add(const T& elem)
 {
   const T *entry = find(elem);
 
@@ -105,7 +111,7 @@ bool DisjointSets<T>::add(const T& elem)
 }
 
 template <typename T>
-const T *DisjointSets<T>::merge(const T& elem1, const T& elem2)
+const T *disjoint_sets<T>::merge(const T& elem1, const T& elem2)
 {
   auto find1 = find_entry(elem1);
   auto find2 = find_entry(elem2);
