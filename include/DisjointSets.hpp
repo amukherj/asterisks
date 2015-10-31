@@ -5,6 +5,16 @@
 #include <vector>
 #include <utility>
 
+/**
+ * A data structure that implements the Disjoint Sets
+ *  data structure using the Union Find algorithm.
+ *
+ * You can store arbitrary types as long as they can be
+ *  stored in an unordered container and compared for equality.
+ *
+ * It is a reference container and does not copy elements
+ *  you add to it.
+ */
 template <typename T>
 class DisjointSets
 {
@@ -12,8 +22,23 @@ public:
   DisjointSets() {}
   ~DisjointSets() {}
 
+  /**
+   * @return true if the element was added, false if it was already present.
+   */
   bool add(const T&);
+
+  /**
+   * @return non-null if the element is present, null otherwise.
+   *         The returned value is the same for two elements that
+   *         are part of the same subset.
+   */
   const T *find(const T&);
+
+  /**
+   * Merges the two subsets that the specified elements are part
+   *  of.
+   *  @return Representative of the merged subset.
+   */
   const T *merge(const T&, const T&);
 
 private:
@@ -94,9 +119,11 @@ const T *DisjointSets<T>::merge(const T& elem1, const T& elem2)
   if (entry1 != nullptr && entry2 != nullptr) {
     if (entry1->size > entry2->size) {
       entry2->parent = index1;
+      entry1->size += entry2->size;
       return entry1->element;
     } else {
       entry1->parent = index2;
+      entry2->size += entry1->size;
       return entry2->element;
     }
   }
