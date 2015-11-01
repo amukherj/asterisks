@@ -1,7 +1,7 @@
 #ifndef GRAPH_NODE_HPP
 #define GRAPH_NODE_HPP
 
-#include "make_hash.hpp"
+#include "utility/make_hash.hpp"
 
 template <typename T>
 class graph_node
@@ -32,11 +32,11 @@ namespace std {
   template <typename T>
   struct hash<graph_node<T>>
   {
-    std::size_t operator() (const graph_node<T>& element)
+    std::size_t operator() (const graph_node<T>& element) const
     {
       return make_hash(element.get_label());
     }
-  }
+  };
 }
 
 #endif /* GRAPH_NODE_HPP */

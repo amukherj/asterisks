@@ -47,6 +47,10 @@ public:
    */
   std::unordered_set<std::unordered_set<const T*>> get_all_subsets() const;
 
+  size_t size() const {
+    return disjoint_set.size();
+  }
+
 private:
   struct DisjointSetEntry
   {
@@ -99,15 +103,17 @@ bool disjoint_sets<T>::add(const T& elem)
   const T *entry = find(elem);
 
   if (entry == nullptr) {
+    // std::cout << "Adding elem at " << disjoint_set.size() << '\n';
     // FIXME thread-unsafe
-    DisjointSetEntry entry(&elem, disjoint_set.size());
+    auto index = disjoint_set.size();
+    DisjointSetEntry entry(&elem, index);
     disjoint_set.push_back(entry);
+    elem_lookup[*entry.element] = index;
     return true;
   } else {
+    // std::cout << "Elem already at " << disjoint_set.size() << '\n';
     return false;
   }
-
-  return entry;
 }
 
 template <typename T>

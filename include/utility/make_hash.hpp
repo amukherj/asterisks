@@ -22,4 +22,19 @@ std::size_t make_hash(T1 object, T... objects)
   return h2;
 }
 
+template <typename T>
+std::size_t make_symmetric_hash(const T& object)
+{
+  return make_hash(object);
+}
+
+template <typename T1, typename... T>
+std::size_t make_symmetric_hash(T1 object, T... objects)
+{
+  std::size_t h1 = make_hash(object);
+  std::size_t h2 = make_hash(objects...);
+
+  return (h1 ^ h2);
+}
+
 #endif /* MAKE_HASH_HPP */
