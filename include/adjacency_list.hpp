@@ -76,9 +76,55 @@ public:
     return edge_set;
   }
 
+  std::unordered_set<graph_node<T>> get_vertices() const
+  {
+    std::unordered_set<graph_node<T>> result;
+
+    for (const auto& entry: adj_list) {
+      result.insert(entry.first);
+    }
+
+    return result;
+  }
+
+  const graph_node<T>* get_any_vertex() const
+  {
+    auto it = adj_list.begin();
+    return (it != adj_list.end()) ? &(it->first) : nullptr;
+  }
+
   size_t get_vertex_count() const
   {
     return adj_list.size();
+  }
+
+  const graph_node<T>* find_vertex(const T& label) const
+  {
+    graph_node<T> key(label);
+    auto it = adj_list.find(key);
+
+    if (it != adj_list.end()) {
+      return &(it->first);
+    } else {
+      return nullptr;
+    }
+  }
+
+  std::unordered_set<graph_edge<T>> get_adjacent_edges(const graph_node<T>& vertex) const
+  {
+    auto it = adj_list.find(vertex);
+    std::unordered_set<graph_edge<T>> result;
+
+    if (it != adj_list.end()) {
+      auto relative_edges = it->second;
+      std::for_each(relative_edges.begin(), relative_edges.end(),
+                    [&result, &it](auto& redge) {
+                      result.insert(relative_edge::make_edge(it->first,
+                                              redge));
+                    });
+    }
+    
+    return result;
   }
 
 private:

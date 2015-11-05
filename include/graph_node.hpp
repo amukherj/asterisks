@@ -28,6 +28,14 @@ bool operator==(const graph_node<T>& left,
   return left.get_label() == right.get_label();
 }
 
+template <typename T>
+bool operator!=(const graph_node<T>& left, 
+                const graph_node<T>& right)
+{
+  return left.get_label() != right.get_label();
+}
+
+
 namespace std {
   template <typename T>
   struct hash<graph_node<T>>

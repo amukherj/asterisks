@@ -94,6 +94,14 @@ bool operator<(const graph_edge<T>& left,
   return left.get_weight() < right.get_weight();
 }
 
+template <typename T>
+bool operator>(const graph_edge<T>& left,
+               const graph_edge<T>& right)
+{
+  return left.get_weight() > right.get_weight();
+}
+
+
 namespace std
 {
   template <typename T>
